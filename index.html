@@ -4,21 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rohit's Life Unfiltered</title>
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyBqu4rdFrJn4vP-RC3_TeztSKrF7rytYGQ",
-      authDomain: "rohitwebsite-f3c71.firebaseapp.com",
-      projectId: "rohitwebsite-f3c71",
-      storageBucket: "rohitwebsite-f3c71.firebasestorage.app",
-      messagingSenderId: "166435675277",
-      appId: "1:166435675277:web:175b3d9bfbdde9a05896c4"
-    };
-    firebase.initializeApp(firebaseConfig);
-  </script>
+  <title>rohitunfiltered.in</title>
   <script defer src="script.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
@@ -41,9 +27,6 @@
   <a href="#" onclick="navigate('resources')" class="hover:text-blue-600 transition-colors duration-300">Resources</a>
   <a href="#" onclick="navigate('posts')" class="hover:text-blue-600 transition-colors duration-300">Posts</a>
   <a href="#" onclick="navigate('premium')" class="hover:text-blue-600 transition-colors duration-300">Premium</a>
-  <button onclick="openAuthModal()" class="ml-4 px-3 py-1 bg-gray-300 dark:bg-gray-700 rounded">Login</button>
-    <span id="userEmail" class="ml-4 text-sm hidden"></span>
-    <button onclick="logout()" id="logoutBtn" class="ml-4 text-red-500 hidden">Logout</button>
 </nav>
 <!-- Loading Spinner -->
 <div id="loader" class="fixed top-0 left-0 w-full h-full bg-white bg-opacity-80 flex items-center justify-center z-50 hidden">
@@ -53,30 +36,6 @@
 
   <!-- Content Area -->
   <main id="content" class="min-h-screen px-4 pt-24 pb-6"></main>
-
- <!-- Auth Modal -->
-  <div id="authModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden">
-    <div class="bg-white dark:bg-gray-900 text-black dark:text-white p-6 rounded-xl w-full max-w-sm shadow-lg">
-      <div class="flex justify-between mb-4">
-        <button onclick="showAuthTab('login')" class="font-bold" id="loginTab">Login</button>
-        <button onclick="showAuthTab('signup')" class="font-bold" id="signupTab">Sign Up</button>
-        <button onclick="closeAuthModal()" class="text-gray-500">✖</button>
-      </div>
-
-      <div id="loginForm" class="space-y-4">
-        <input type="email" id="loginEmail" placeholder="Email" class="w-full p-2 rounded border" />
-        <input type="password" id="loginPassword" placeholder="Password" class="w-full p-2 rounded border" />
-        <button onclick="login()" class="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded">Login</button>
-      </div>
-
-      <div id="signupForm" class="space-y-4 hidden">
-        <input type="email" id="signupEmail" placeholder="Email" class="w-full p-2 rounded border" />
-        <input type="password" id="signupPassword" placeholder="Password" class="w-full p-2 rounded border" />
-        <button onclick="signup()" class="w-full bg-green-500 hover:bg-green-600 text-white p-2 rounded">Sign Up</button>
-      </div>
-    </div>
-  </div>
-
 
 <style>
 
