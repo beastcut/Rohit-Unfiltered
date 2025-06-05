@@ -145,7 +145,33 @@ const scheduleImg = document.getElementById("scheduleImg");
     }
   });
 }
+
+else if (page === "posts") {
+    content.innerHTML = `
+      <h1 class="text-3xl font-bold mb-6 text-center">📸 Community Posts</h1>
+      <p class="text-center text-gray-600 mb-4">Updates, thoughts, mini-blogs and photos from Rohit.</p>
+      <p class="text-center text-gray-400">No posts yet. Stay tuned!</p>
+    `;
+  } else if (page === "premium") {
+    content.innerHTML = `
+      <h1 class="text-3xl font-bold text-center mb-4">💰 Premium Mentorship</h1>
+      <p class="text-center text-gray-700 max-w-xl mx-auto mb-6">
+        Want to learn how to earn money online by mastering freelancing and content creation? Book a 1-on-1 session with Rohit for just ₹99!
+      </p>
+      <div class="flex justify-center">
+        <button class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-6 rounded">Book Now for ₹99</button>
+      </div>
+      <p class="text-center text-sm text-gray-500 mt-4">(Payment gateway integration coming soon)</p>
+    `;
+  }
+
+
 }
+
+
+
+
+
 
 // Load homepage by default
 window.onload = () => navigate("home");
