@@ -46,7 +46,23 @@ function navigate(page) {
 
 else if (page === "resources") {
   content.innerHTML = `
-    <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Schedules (Daily/Weekly)</h1>
+    
+
+ <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <a href="#" onclick="navigate('class11') " download class="text-black-600 ">
+       <button> <h3 class="font-semibold mb-2">Class - 11th</h3> </button>
+        </a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+      <a href="#" onclick="navigate('class12') " download class="text-black-600 ">
+       <button> <h3 class="font-semibold mb-2">Class - 12th</h3> </button>
+        </a>
+      </div>
+    </div>
+
+    <h1 class="text-3xl font-bold mb-6 text-center " style="margin-top: 5%;">📚 Study Schedules</h1>
     <div class="flex justify-center">
       <img id="scheduleImg" src="images/212.png" alt="Study Schedule draggable="false"" 
            class="max-w-sm rounded-lg cursor-pointer shadow-lg hover:shadow-2xl transition transform hover:scale-105" />
@@ -62,48 +78,6 @@ else if (page === "resources") {
              class="max-w-full max-h-[80vh] rounded" />
       </div>
     </div>
-
- <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
-      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <h3 class="font-semibold mb-2">Short Notes PDF 1</h3>
-        <a href="pdfs/short-notes-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
-      </div>
-      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <h3 class="font-semibold mb-2">Short Notes PDF 2</h3>
-        <a href="pdfs/short-notes-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
-      </div>
-      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <h3 class="font-semibold mb-2">Short Notes PDF 3</h3>
-        <a href="pdfs/short-notes-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
-      </div>
-      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <h3 class="font-semibold mb-2">Study Schedule Weekly</h3>
-        <a href="pdfs/study-schedule-weekly.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
-      </div>
-      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <h3 class="font-semibold mb-2">Study Schedule Daily</h3>
-        <a href="pdfs/study-schedule-daily.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
-      </div>
-      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <h3 class="font-semibold mb-2">Study Strategy Guide</h3>
-        <a href="pdfs/study-strategy-guide.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
-      </div>
-      <!-- Add 3 more if you want to fill 3x3 grid -->
-      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <h3 class="font-semibold mb-2">Extra Resource 1</h3>
-        <a href="pdfs/extra-resource-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
-      </div>
-      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <h3 class="font-semibold mb-2">Extra Resource 2</h3>
-        <a href="pdfs/extra-resource-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
-      </div>
-      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <h3 class="font-semibold mb-2">Extra Resource 3</h3>
-        <a href="pdfs/extra-resource-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
-      </div>
-    </div>
-
 
   `;
 const scheduleImg = document.getElementById("scheduleImg");
@@ -145,7 +119,13 @@ const scheduleImg = document.getElementById("scheduleImg");
     }
   });
 }
-
+else if (page === "store") {
+    content.innerHTML = `
+      <h1 class="text-3xl font-bold mb-6 text-center">STORE</h1>
+      <p class="text-center text-gray-600 mb-4">Creating</p>
+      <p class="text-center text-gray-400">wait</p>
+    `;
+  }
 else if (page === "posts") {
     content.innerHTML = `
       <h1 class="text-3xl font-bold mb-6 text-center">📸 Community Posts</h1>
@@ -164,6 +144,79 @@ else if (page === "posts") {
       <p class="text-center text-sm text-gray-500 mt-4">(Payment gateway integration coming soon)</p>
     `;
   }
+
+
+
+
+else if (page === "class12") {
+  content.innerHTML = `
+
+ <h1 class="text-3xl font-bold mb-6 text-left">📖 Subjects</h1>
+ <p class="text-center text-gray-400" style="text-align: left;">Select your subjects & start learning</p>
+ <div class="subject">
+   <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <a href="#" onclick="navigate('class12') " download class="text-black-600 ">
+       <button> <h3 class="font-semibold mb-2">⚛ PHYSICS (notes)</h3> </button>
+        </a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+      <a href="#" onclick="navigate('class12') " download class="text-black-600 ">
+       <button> <h3 class="font-semibold mb-2">🧪 CHEMISTRY (notes)</h3> </button>
+        </a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+      <a href="#" onclick="navigate('class12') " download class="text-black-600 ">
+       <button> <h3 class="font-semibold mb-2">🧠 MATHS (notes)</h3> </button>
+        </a>
+      </div>
+    </div>
+</div>
+
+  `;
+}
+
+
+
+else if (page === "class11") {
+  content.innerHTML = `
+
+ <h1 class="text-3xl font-bold mb-6 text-left">📖 Subjects</h1>
+ <p class="text-center text-gray-400" style="text-align: left;">Select your subjects & start learning</p>
+ <div class="subject">
+   <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <a href="#" onclick="navigate('class12') " download class="text-black-600 ">
+       <button> <h3 class="font-semibold mb-2">⚛ PHYSICS (notes)</h3> </button>
+        </a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+      <a href="#" onclick="navigate('class12') " download class="text-black-600 ">
+       <button> <h3 class="font-semibold mb-2">🧪 CHEMISTRY (notes)</h3> </button>
+        </a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+      <a href="#" onclick="navigate('class12') " download class="text-black-600 ">
+       <button> <h3 class="font-semibold mb-2">🧠 MATHS (notes)</h3> </button>
+        </a>
+      </div>
+    </div>
+</div>
+
+  `;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
