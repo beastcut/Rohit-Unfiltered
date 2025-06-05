@@ -3,7 +3,6 @@ let historyStack = [];
 import { initializeApp } from "firebase/app";
 const app = initializeApp(firebaseConfig);
 
-
 localStorage.setItem("visitedPosts", JSON.stringify(["post1", "post2"]));
 
 function navigate(page) {
