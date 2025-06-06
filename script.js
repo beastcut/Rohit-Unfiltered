@@ -145,10 +145,26 @@ else if (page === "store") {
   }
 else if (page === "posts") {
     content.innerHTML = `
-      <h1 class="text-3xl font-bold mb-6 text-center">📸 Community Posts</h1>
-      <p class="text-center text-gray-600 mb-4">Updates, thoughts, mini-blogs and photos from Rohit.</p>
-      <p class="text-center text-gray-400">No posts yet. Stay tuned!</p>
-    `;
+  <h1 class="text-3xl font-bold mb-6 text-center">📸 Community Posts</h1>
+  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-1 px-4">
+    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+      <h3 class="text-xl font-semibold mb-2">Staying Consistent with Studies</h3>
+      <p class="text-sm text-gray-500 mb-2">Posted on June 6, 2025</p>
+      <p>Discipline beats motivation. Just start today and be better than yesterday.</p>
+    </div>
+    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+      <h3 class="text-xl font-semibold mb-2">New Video Coming Soon 🎥</h3>
+      <p class="text-sm text-gray-500 mb-2">Posted on June 4, 2025</p>
+      <p>Excited to share my latest vlog on balancing college and content!</p>
+    </div>
+    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
+      <h3 class="text-xl font-semibold mb-2">Quote of the Week</h3>
+      <p class="text-sm text-gray-500 mb-2">Posted on June 2, 2025</p>
+      <p>“Success is the sum of small efforts, repeated day in and day out.”</p>
+    </div>
+  </div>
+`;
+
   } else if (page === "premium") {
     content.innerHTML = `
       <h1 class="text-3xl font-bold text-center mb-4">💰 Premium Mentorship</h1>
@@ -229,87 +245,87 @@ else if (page === "phy11") {
  <div class="subject">
    <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 px-6">
       <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('notes') "class="text-black-600 ">
+        <button onclick="navigate('notesp111') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch-1 : Units and Measurements</h3> 
         </button>
       </div>
       <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp112') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch-2 : Mathematical Tools</h3> 
         </button>
       </div>
       <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp113') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch-3 : Motion in a Straight Line</h3> 
         </button>
       </div>
        <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp114') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch-4 : Motion in a Plane</h3> 
         </button>
       </div>
       <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp115') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch-5 : Laws of Motion</h3> 
         </button>
       </div>
       <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp116') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch-6 : Circular Motion</h3> 
         </button>
       </div>
        <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp117') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch-7 : Work, Energy and Power</h3> 
         </button>
       </div>
       <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp118') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch-08 : Centre of Mass & Sys...</h3> 
         </button>
       </div>
       <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp119') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch-09 : Rotational Motion</h3> 
         </button>
       </div>
        <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp1110') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch-10 : Mechanical Properties of Fluids</h3> 
         </button>
       </div>
       <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp1111') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch-11 : Gravitation</h3> 
         </button>
       </div>
       <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp1112') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch - 12 : Mechanical Properties of Solids</h3> 
         </button>
       </div>
        <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp1113') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch - 13 : Thermal Properties...</h3> 
         </button>
       </div>
       <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp114') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch - 14 : KTG & Thermodynamics</h3> 
         </button>
       </div>
       <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp1115') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch - 15 : Oscillations</h3> 
         </button>
       </div>
        <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp1116') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch - 16 : Waves</h3> 
         </button>
       </div>
       <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('notesp1117') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">Ch - 17 : Instruments</h3> 
         </button>
       </div>
@@ -324,17 +340,17 @@ else if (page === "phy11") {
  <div class="subject">
    <div class="grid grid-cols-1 sm:grid-cols-4 gap-6 px-6">
       <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('chem11p') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">⚗️ PHYSICAL CHEMISTRY</h3> 
         </button>
       </div>
       <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('chem11i') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">⚗️ INORGANIC CHEMISTRY</h3> 
         </button>
       </div>
       <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
-        <button onclick="navigate('class12') "class="text-black-600 ">
+        <button onclick="navigate('chem11o') "class="text-black-600 ">
        <h3 class="font-semibold mb-2">⚗️ ORGANIC CHEMISTRY</h3> 
         </button>
       </div>
@@ -342,7 +358,7 @@ else if (page === "phy11") {
 </div>
   `;
 }
-else if (page === "chem11") {
+else if (page === "chem11p") {
   content.innerHTML = `
 
 <h1 class="text-3xl font-bold mb-6 text-left">📖 Subjects</h1>
@@ -437,7 +453,7 @@ else if (page === "chem11") {
     </div>
 </div>
   `;
-}else if (page === "chem11") {
+}else if (page === "chem11i") {
   content.innerHTML = `
 
 <h1 class="text-3xl font-bold mb-6 text-left">📖 Subjects</h1>
@@ -532,7 +548,7 @@ else if (page === "chem11") {
     </div>
 </div>
   `;
-}else if (page === "chem11") {
+}else if (page === "chem11o") {
   content.innerHTML = `
 
 <h1 class="text-3xl font-bold mb-6 text-left">📖 Subjects</h1>
@@ -771,9 +787,7 @@ else if (page === "notesp111") {
       </div>
     </div>
   `;
-}
-
-else if (page === "notesp112") {
+}else if (page === "notesp112") {
   content.innerHTML = `
     <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
@@ -859,6 +873,608 @@ else if (page === "notesp112") {
       </div>
     </div>
   `;
+}else if (page === "notesp114") {
+  content.innerHTML = `
+    <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 1</h3>
+        <a href="pdfs/short-notes-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 2</h3>
+        <a href="pdfs/short-notes-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 3</h3>
+        <a href="pdfs/short-notes-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Weekly</h3>
+        <a href="pdfs/study-schedule-weekly.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Daily</h3>
+        <a href="pdfs/study-schedule-daily.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Strategy Guide</h3>
+        <a href="pdfs/study-strategy-guide.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <!-- Add 3 more if you want to fill 3x3 grid -->
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 1</h3>
+        <a href="pdfs/extra-resource-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 2</h3>
+        <a href="pdfs/extra-resource-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 3</h3>
+        <a href="pdfs/extra-resource-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+    </div>
+  `;
+}else if (page === "notesp115") {
+  content.innerHTML = `
+    <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 1</h3>
+        <a href="pdfs/short-notes-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 2</h3>
+        <a href="pdfs/short-notes-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 3</h3>
+        <a href="pdfs/short-notes-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Weekly</h3>
+        <a href="pdfs/study-schedule-weekly.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Daily</h3>
+        <a href="pdfs/study-schedule-daily.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Strategy Guide</h3>
+        <a href="pdfs/study-strategy-guide.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <!-- Add 3 more if you want to fill 3x3 grid -->
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 1</h3>
+        <a href="pdfs/extra-resource-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 2</h3>
+        <a href="pdfs/extra-resource-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 3</h3>
+        <a href="pdfs/extra-resource-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+    </div>
+  `;
+}else if (page === "notesp116") {
+  content.innerHTML = `
+    <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 1</h3>
+        <a href="pdfs/short-notes-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 2</h3>
+        <a href="pdfs/short-notes-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 3</h3>
+        <a href="pdfs/short-notes-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Weekly</h3>
+        <a href="pdfs/study-schedule-weekly.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Daily</h3>
+        <a href="pdfs/study-schedule-daily.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Strategy Guide</h3>
+        <a href="pdfs/study-strategy-guide.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <!-- Add 3 more if you want to fill 3x3 grid -->
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 1</h3>
+        <a href="pdfs/extra-resource-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 2</h3>
+        <a href="pdfs/extra-resource-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 3</h3>
+        <a href="pdfs/extra-resource-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+    </div>
+  `;
+}else if (page === "notesp117") {
+  content.innerHTML = `
+    <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 1</h3>
+        <a href="pdfs/short-notes-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 2</h3>
+        <a href="pdfs/short-notes-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 3</h3>
+        <a href="pdfs/short-notes-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Weekly</h3>
+        <a href="pdfs/study-schedule-weekly.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Daily</h3>
+        <a href="pdfs/study-schedule-daily.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Strategy Guide</h3>
+        <a href="pdfs/study-strategy-guide.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <!-- Add 3 more if you want to fill 3x3 grid -->
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 1</h3>
+        <a href="pdfs/extra-resource-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 2</h3>
+        <a href="pdfs/extra-resource-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 3</h3>
+        <a href="pdfs/extra-resource-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+    </div>
+  `;
+}else if (page === "notesp118") {
+  content.innerHTML = `
+    <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 1</h3>
+        <a href="pdfs/short-notes-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 2</h3>
+        <a href="pdfs/short-notes-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 3</h3>
+        <a href="pdfs/short-notes-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Weekly</h3>
+        <a href="pdfs/study-schedule-weekly.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Daily</h3>
+        <a href="pdfs/study-schedule-daily.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Strategy Guide</h3>
+        <a href="pdfs/study-strategy-guide.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <!-- Add 3 more if you want to fill 3x3 grid -->
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 1</h3>
+        <a href="pdfs/extra-resource-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 2</h3>
+        <a href="pdfs/extra-resource-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 3</h3>
+        <a href="pdfs/extra-resource-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+    </div>
+  `;
+}else if (page === "notesp119") {
+  content.innerHTML = `
+    <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 1</h3>
+        <a href="pdfs/short-notes-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 2</h3>
+        <a href="pdfs/short-notes-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 3</h3>
+        <a href="pdfs/short-notes-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Weekly</h3>
+        <a href="pdfs/study-schedule-weekly.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Daily</h3>
+        <a href="pdfs/study-schedule-daily.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Strategy Guide</h3>
+        <a href="pdfs/study-strategy-guide.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <!-- Add 3 more if you want to fill 3x3 grid -->
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 1</h3>
+        <a href="pdfs/extra-resource-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 2</h3>
+        <a href="pdfs/extra-resource-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 3</h3>
+        <a href="pdfs/extra-resource-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+    </div>
+  `;
+}else if (page === "notesp1110") {
+  content.innerHTML = `
+    <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 1</h3>
+        <a href="pdfs/short-notes-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 2</h3>
+        <a href="pdfs/short-notes-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 3</h3>
+        <a href="pdfs/short-notes-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Weekly</h3>
+        <a href="pdfs/study-schedule-weekly.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Daily</h3>
+        <a href="pdfs/study-schedule-daily.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Strategy Guide</h3>
+        <a href="pdfs/study-strategy-guide.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <!-- Add 3 more if you want to fill 3x3 grid -->
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 1</h3>
+        <a href="pdfs/extra-resource-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 2</h3>
+        <a href="pdfs/extra-resource-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 3</h3>
+        <a href="pdfs/extra-resource-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+    </div>
+  `;
+}else if (page === "notesp1111") {
+  content.innerHTML = `
+    <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 1</h3>
+        <a href="pdfs/short-notes-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 2</h3>
+        <a href="pdfs/short-notes-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 3</h3>
+        <a href="pdfs/short-notes-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Weekly</h3>
+        <a href="pdfs/study-schedule-weekly.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Daily</h3>
+        <a href="pdfs/study-schedule-daily.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Strategy Guide</h3>
+        <a href="pdfs/study-strategy-guide.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <!-- Add 3 more if you want to fill 3x3 grid -->
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 1</h3>
+        <a href="pdfs/extra-resource-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 2</h3>
+        <a href="pdfs/extra-resource-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 3</h3>
+        <a href="pdfs/extra-resource-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+    </div>
+  `;
+}else if (page === "notesp1112") {
+  content.innerHTML = `
+    <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 1</h3>
+        <a href="pdfs/short-notes-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 2</h3>
+        <a href="pdfs/short-notes-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 3</h3>
+        <a href="pdfs/short-notes-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Weekly</h3>
+        <a href="pdfs/study-schedule-weekly.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Daily</h3>
+        <a href="pdfs/study-schedule-daily.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Strategy Guide</h3>
+        <a href="pdfs/study-strategy-guide.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <!-- Add 3 more if you want to fill 3x3 grid -->
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 1</h3>
+        <a href="pdfs/extra-resource-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 2</h3>
+        <a href="pdfs/extra-resource-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 3</h3>
+        <a href="pdfs/extra-resource-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+    </div>
+  `;
+}else if (page === "notesp1113") {
+  content.innerHTML = `
+    <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 1</h3>
+        <a href="pdfs/short-notes-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 2</h3>
+        <a href="pdfs/short-notes-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 3</h3>
+        <a href="pdfs/short-notes-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Weekly</h3>
+        <a href="pdfs/study-schedule-weekly.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Daily</h3>
+        <a href="pdfs/study-schedule-daily.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Strategy Guide</h3>
+        <a href="pdfs/study-strategy-guide.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <!-- Add 3 more if you want to fill 3x3 grid -->
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 1</h3>
+        <a href="pdfs/extra-resource-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 2</h3>
+        <a href="pdfs/extra-resource-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 3</h3>
+        <a href="pdfs/extra-resource-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+    </div>
+  `;
+}else if (page === "notesp1114") {
+  content.innerHTML = `
+    <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 1</h3>
+        <a href="pdfs/short-notes-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 2</h3>
+        <a href="pdfs/short-notes-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 3</h3>
+        <a href="pdfs/short-notes-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Weekly</h3>
+        <a href="pdfs/study-schedule-weekly.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Daily</h3>
+        <a href="pdfs/study-schedule-daily.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Strategy Guide</h3>
+        <a href="pdfs/study-strategy-guide.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <!-- Add 3 more if you want to fill 3x3 grid -->
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 1</h3>
+        <a href="pdfs/extra-resource-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 2</h3>
+        <a href="pdfs/extra-resource-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 3</h3>
+        <a href="pdfs/extra-resource-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+    </div>
+  `;
+}else if (page === "notesp1115") {
+  content.innerHTML = `
+    <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 1</h3>
+        <a href="pdfs/short-notes-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 2</h3>
+        <a href="pdfs/short-notes-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 3</h3>
+        <a href="pdfs/short-notes-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Weekly</h3>
+        <a href="pdfs/study-schedule-weekly.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Daily</h3>
+        <a href="pdfs/study-schedule-daily.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Strategy Guide</h3>
+        <a href="pdfs/study-strategy-guide.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <!-- Add 3 more if you want to fill 3x3 grid -->
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 1</h3>
+        <a href="pdfs/extra-resource-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 2</h3>
+        <a href="pdfs/extra-resource-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 3</h3>
+        <a href="pdfs/extra-resource-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+    </div>
+  `;
+}else if (page === "notesp1116") {
+  content.innerHTML = `
+    <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 1</h3>
+        <a href="pdfs/short-notes-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 2</h3>
+        <a href="pdfs/short-notes-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 3</h3>
+        <a href="pdfs/short-notes-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Weekly</h3>
+        <a href="pdfs/study-schedule-weekly.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Daily</h3>
+        <a href="pdfs/study-schedule-daily.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Strategy Guide</h3>
+        <a href="pdfs/study-strategy-guide.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <!-- Add 3 more if you want to fill 3x3 grid -->
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 1</h3>
+        <a href="pdfs/extra-resource-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 2</h3>
+        <a href="pdfs/extra-resource-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 3</h3>
+        <a href="pdfs/extra-resource-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+    </div>
+  `;
+}else if (page === "notesp1117") {
+  content.innerHTML = `
+    <h1 class="text-3xl font-bold mb-6 text-center">📚 Study Resources</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 px-6">
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 1</h3>
+        <a href="pdfs/short-notes-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 2</h3>
+        <a href="pdfs/short-notes-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Short Notes PDF 3</h3>
+        <a href="pdfs/short-notes-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Weekly</h3>
+        <a href="pdfs/study-schedule-weekly.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Schedule Daily</h3>
+        <a href="pdfs/study-schedule-daily.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Study Strategy Guide</h3>
+        <a href="pdfs/study-strategy-guide.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <!-- Add 3 more if you want to fill 3x3 grid -->
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 1</h3>
+        <a href="pdfs/extra-resource-1.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 2</h3>
+        <a href="pdfs/extra-resource-2.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+      <div class="border rounded-lg p-4 shadow hover:shadow-lg transition">
+        <h3 class="font-semibold mb-2">Extra Resource 3</h3>
+        <a href="pdfs/extra-resource-3.pdf" download class="text-blue-600 hover:underline">Download PDF</a>
+      </div>
+    </div>
+  `;
 }
 
 
@@ -866,7 +1482,7 @@ else if (page === "notesp112") {
 // Hide loader & show content
     loader.classList.add("hidden");
     content.classList.remove("opacity-0");
-  }, 600); // loading delay (can be adjusted)
+  }, 500); // loading delay (can be adjusted)
 }
 
 
@@ -891,4 +1507,21 @@ function closeModal() {
 }
 
 window.onload = () => navigate("home");
+
+const fabMain = document.getElementById('fab-main');
+const fabWA = document.getElementById('fab-wa');
+const fabTG = document.getElementById('fab-tg');
+const fabInsta = document.getElementById('fab-insta');
+let fabOpen = false;
+
+fabMain.addEventListener('click', () => {
+  fabOpen = !fabOpen;
+  [fabWA, fabTG, fabInsta].forEach(btn => {
+    btn.classList.toggle('scale-0');
+    btn.classList.toggle('scale-100');
+  });
+
+  // Rotate the + icon to X
+  fabMain.classList.toggle('rotate-45');
+});
 

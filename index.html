@@ -8,8 +8,8 @@
   <script defer src="script.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-white">
-<body oncontextmenu="return false;">
+<body class="bg-white dark:bg-gray-900 text-black dark:text-white">
+
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("img").forEach(img => {
@@ -20,14 +20,38 @@
 
 
 
-  <!-- Navbar -->
-<nav class="bg-gray-200 py-4 px-6 flex justify-left space-x-6 text-lg font-medium fixed w-full top-0 z-50">
-  <button id="backBtn" onclick="goBack()" class="text-black hover:text-blue-600 transition-colors duration-300">🔙</button>
-  <a href="#" onclick="navigate('home')" class="hover:text-blue-600 transition-colors duration-300">Home</a>
-  <a href="#" onclick="navigate('resources')" class="hover:text-blue-600 transition-colors duration-300">Resources</a>
-  <a href="#" onclick="navigate('posts')" class="hover:text-blue-600 transition-colors duration-300">Posts</a>
-  <a href="#" onclick="navigate('premium')" class="hover:text-blue-600 transition-colors duration-300">Premium</a>
+<nav class="bg-gray-200 dark:bg-gray-800 py-4 px-6 fixed w-full top-0 z-50">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center space-x-4 text-lg font-medium">
+      <a id="backBtn" onclick="goBack()" class="text-black dark:text-white hover:text-blue-400 transition-colors duration-300 border rounded-lg p-2 shadow hover:shadow-lg transition text-black-800" style="cursor: pointer;" >← BACK</a>
+    </div>
+
+    <!-- Desktop Links -->
+    <div class="hidden md:flex space-x-6 text-lg font-medium">
+      <a href="#" onclick="navigate('home')" class="text-black dark:text-white hover:text-blue-600 transition-colors duration-300">Home</a>
+      <a href="#" onclick="navigate('resources')" class="text-black dark:text-white hover:text-blue-600 transition-colors duration-300">Resources</a>
+      <a href="#" onclick="navigate('posts')" class="text-black dark:text-white hover:text-blue-600 transition-colors duration-300">Posts</a>
+      <a href="#" onclick="navigate('premium')" class="text-black dark:text-white hover:text-blue-600 transition-colors duration-300">Premium</a>
+    </div>
+
+    <!-- Dark Mode Toggle -->
+    <button onclick="myFunction()" class="ml-4 text-black dark:text-white hover:text-blue-600 transition duration-300 hidden md:inline" >LOGIN</button>
+
+    <!-- Mobile Hamburger Button -->
+    <button id="menuToggle" class="md:hidden text-black dark:text-white text-2xl focus:outline-none">
+      ☰
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="md:hidden mt-4 space-y-2 hidden flex-col">
+    <a href="#" onclick="navigate('home')" class="block text-black dark:text-white hover:text-blue-600">Home</a>
+    <a href="#" onclick="navigate('resources')" class="block text-black dark:text-white hover:text-blue-600">Resources</a>
+    <a href="#" onclick="navigate('posts')" class="block text-black dark:text-white hover:text-blue-600">Posts</a>
+    <a href="#" onclick="navigate('premium')" class="block text-black dark:text-white hover:text-blue-600">Premium</a>
+  </div>
 </nav>
+
 <!-- Loading Spinner -->
 <div id="loader" class="fixed top-0 left-0 w-full h-full bg-white bg-opacity-80 flex items-center justify-center z-50 hidden">
   <div class="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid"></div>
@@ -36,7 +60,6 @@
 
   <!-- Content Area -->
   <main id="content" class="min-h-screen px-4 pt-24 pb-6"></main>
-
 <style>
 
 .subject{
@@ -62,7 +85,56 @@ body {
     -ms-user-select: none;     /* IE/Edge */
     user-select: none;         /* Standard */
   }
+body {
+  background-color: white;
+  color: black;
+}
+
+.dark-mode {
+  background-color: rgb(55, 55, 55);
+  color: rgb(255, 246, 246);
+}
 </style>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const toggle = document.getElementById("menuToggle");
+  const menu = document.getElementById("mobileMenu");
+
+  toggle.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+  });
+});
+
+document.querySelectorAll("#mobileMenu a").forEach(link => {
+  link.addEventListener("click", () => menu.classList.add("hidden"));
+});
+
+</script>
+<!-- FAB Container -->
+<div class="fixed bottom-6 right-6 z-50">
+  <!-- WhatsApp -->
+  <a href="https://www.whatsapp.com/channel/0029Vb64Rq28V0tptGNndk0r/" target="_blank" id="fab-wa"
+     class="w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center shadow-lg mb-2 transform scale-0 transition-transform duration-300">
+    <img src="https://img.icons8.com/ios-filled/24/ffffff/whatsapp.png" alt="WA" />
+  </a>
+
+  <!-- Telegram -->
+  <a href="https://t.me/+G-ojdwL_Mfo2ZmRl" target="_blank" id="fab-tg"
+     class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-lg mb-2 transform scale-0 transition-transform duration-300">
+    <img src="https://img.icons8.com/ios-filled/24/ffffff/telegram-app.png" alt="TG" />
+  </a>
+
+ <!-- Instagram -->
+  <a href="https://www.instagram.com/rohits_unfiltered?igsh=eHhla2k4bzY5am1i" target="_blank" id="fab-insta"
+     class="w-12 h-12 rounded-full bg-pink-500 text-white flex items-center justify-center shadow-lg mb-2 transform scale-0 transition-transform duration-300">
+    <img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new.png" alt="Instagram" />
+  </a>
+  <!-- Main FAB -->
+  <button id="fab-main" class="w-14 h-14 rounded-full bg-purple-600 text-white text-2xl shadow-lg flex items-center justify-center hover:bg-purple-700 transition">
+    +
+  </button>
+</div>
+
 </body>
 </html>
 
