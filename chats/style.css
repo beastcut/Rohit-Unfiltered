@@ -1,0 +1,139 @@
+/* Chat message container */
+#chat-box {
+  scrollbar-width: thin;
+  scrollbar-color: #2563eb #1f2937; /* blue thumb on dark bg */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Scrollbar styles for WebKit */
+#chat-box::-webkit-scrollbar {
+  width: 8px;
+}
+#chat-box::-webkit-scrollbar-thumb {
+  background-color: #2563eb;
+  border-radius: 4px;
+  border: 2px solid #1f2937; /* padding effect */
+}
+#chat-box::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+/* Each message bubble */
+#chat-box > div {
+  background-color: #2d3748; /* Tailwind gray-700 */
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.4);
+  transition: background-color 0.2s ease;
+  cursor: context-menu;
+  user-select: text;
+}
+
+/* Highlight message bubble on hover */
+#chat-box > div:hover {
+  background-color: #4c51bf; /* Tailwind indigo-600 */
+  color: #e0e7ff; /* light text */
+}
+
+/* Timestamp style */
+#chat-box > div > span:first-child {
+  color: #a0aec0; /* Tailwind gray-400 */
+  font-size: 0.8rem;
+  margin-right: 8px;
+}
+
+/* Sender name style */
+#chat-box > div > span:nth-child(2) {
+  color: #63b3ed; /* Tailwind blue-400 */
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+/* Context menu styling */
+#contextMenu {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #1e293b; /* Tailwind gray-800 */
+  border: 1.5px solid #2563eb; /* Tailwind blue-600 */
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgb(37 99 235 / 0.5);
+  min-width: 140px;
+  user-select: none;
+  z-index: 10000;
+}
+
+/* Context menu items */
+#contextMenu > div {
+  padding: 10px 18px;
+  cursor: pointer;
+  color: #60a5fa; /* Tailwind blue-400 */
+  transition: background-color 0.15s ease;
+}
+
+/* Hover effect for context menu items */
+#contextMenu > div:hover {
+  background-color: #2563eb; /* Tailwind blue-600 */
+  color: #e0e7ff;
+}
+
+/* Input box styling */
+#messageInput {
+  background-color: #1e293b; /* Tailwind gray-800 */
+  border: 1.5px solid #2563eb;
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: #e0e7ff;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  outline: none;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Focus state for input */
+#messageInput:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 6px #60a5faaa;
+}
+
+/* Send button styling */
+button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+button:hover:not([disabled]) {
+  background-color: #1e40af;
+}
+
+/* Name popup styling */
+#namePopup > div {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#namePopup input {
+  border-radius: 8px;
+  border: 1.5px solid #2563eb;
+  padding: 10px 14px;
+  font-size: 1rem;
+  color: #1f2937;
+  font-weight: 500;
+  outline: none;
+}
+
+#namePopup button {
+  margin-top: 10px;
+}
+

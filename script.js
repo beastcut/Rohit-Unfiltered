@@ -143,29 +143,9 @@ else if (page === "store") {
       <p class="text-center text-gray-400">wait</p>
     `;
   }
-else if (page === "posts") {
-    content.innerHTML = `
-  <h1 class="text-3xl font-bold mb-6 text-center">📸 Community Posts</h1>
-  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-1 px-4">
-    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
-      <h3 class="text-xl font-semibold mb-2">Staying Consistent with Studies</h3>
-      <p class="text-sm text-gray-500 mb-2">Posted on June 6, 2025</p>
-      <p>Discipline beats motivation. Just start today and be better than yesterday.</p>
-    </div>
-    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
-      <h3 class="text-xl font-semibold mb-2">New Video Coming Soon 🎥</h3>
-      <p class="text-sm text-gray-500 mb-2">Posted on June 4, 2025</p>
-      <p>Excited to share my latest vlog on balancing college and content!</p>
-    </div>
-    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow">
-      <h3 class="text-xl font-semibold mb-2">Quote of the Week</h3>
-      <p class="text-sm text-gray-500 mb-2">Posted on June 2, 2025</p>
-      <p>“Success is the sum of small efforts, repeated day in and day out.”</p>
-    </div>
-  </div>
-`;
 
-  } else if (page === "premium") {
+
+   else if (page === "premium") {
     content.innerHTML = `
       <h1 class="text-3xl font-bold text-center mb-4">💰 Premium Mentorship</h1>
       <p class="text-center text-gray-700 max-w-xl mx-auto mb-6">
