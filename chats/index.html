@@ -1,37 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Community Post Website</title>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community Feed</title>
   <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 min-h-screen flex flex-col">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      doc,
+      updateDoc,
+      arrayUnion,
+      onSnapshot,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  <nav class="bg-white shadow p-4 flex justify-between items-center">
-      
-    <div class="flex items-center space-x-4 text-lg font-medium">
-      <a href="https://beastcut.github.io/Rohit-Unfiltered/" class="text-black dark:text-black hover:text-blue-400 transition-colors duration-300 border rounded-lg p-2 shadow hover:shadow-lg transition text-black-800" style="cursor: pointer;" >← BACK</a>
-    </div>
-
-    <h1 class="text-xl font-semibold">Community Posts</h1>
-    <div>
-      <button id="logoutBtn" class="bg-red-500 text-white px-4 py-2 rounded hidden hover:bg-red-600">Logout</button>
-      <a href="login.html" id="loginLink" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Login</a>
-      <a href="upload.html" id="uploadLink" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 ml-2 hidden">Post</a>
-    </div>
-  </nav>
-
-  <main class="flex-grow container mx-auto p-4">
-    <div id="postsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-  </main>
-
-  <script>
-    // Your Firebase config here
-     const firebaseConfig = {
+   const firebaseConfig = {
   apiKey: "AIzaSyAPhlmCS7t_NV7VqhRtOiFGp1QFhLzqMh4",
   authDomain: "chat-7b8fc.firebaseapp.com",
   projectId: "chat-7b8fc",
@@ -39,129 +33,100 @@
   messagingSenderId: "604456029175",
   appId: "1:604456029175:web:f61e014fe2113671a7bcf2"
 };
-    firebase.initializeApp(firebaseConfig);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+    const postContainer = document.getElementById("post-container");
 
-    const logoutBtn = document.getElementById("logoutBtn");
-    const loginLink = document.getElementById("loginLink");
-    const uploadLink = document.getElementById("uploadLink");
-    const postsContainer = document.getElementById("postsContainer");
+    const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
 
-    let currentUser = null;
+    onSnapshot(q, (snapshot) => {
+      postContainer.innerHTML = "";
+      snapshot.forEach((docSnap) => {
+        const postData = docSnap.data();
+        const postId = docSnap.id;
 
-    // Set your admin emails here:
-    const adminEmails = ["satyampatel.net@gmail.com", "workwithrohitunfiltered@gmail.com"]; // Replace with actual admin emails
-    let isAdmin = false;
+        const container = document.createElement("div");
+        container.className = "bg-white rounded-2xl shadow-md border border-gray-200 p-4 transition hover:shadow-lg";
 
-    // Handle auth state changes
-    auth.onAuthStateChanged(user => {
-      currentUser = user;
-      if (user) {
-        logoutBtn.style.display = "inline-block";
-        loginLink.style.display = "none";
-        uploadLink.style.display = "inline-block";
+        const captionEl = document.createElement("h2");
+        captionEl.className = "text-xl font-semibold text-gray-800 mb-3";
+        captionEl.textContent = postData.caption;
 
-        // Check admin status
-        isAdmin = adminEmails.includes(user.email);
-      } else {
-        logoutBtn.style.display = "none";
-        loginLink.style.display = "inline-block";
-        uploadLink.style.display = "none";
-        isAdmin = false;
-      }
+        const imgEl = document.createElement("img");
+        imgEl.className = "w-full rounded-lg object-cover mb-4 max-h-96";
+        imgEl.src = postData.imageUrl;
 
-      loadPosts();
-    });
-
-    logoutBtn.addEventListener("click", () => {
-      auth.signOut();
-    });
-
-    function loadPosts() {
-      postsContainer.innerHTML = "<p class='col-span-full text-center text-gray-500'>Loading posts...</p>";
-
-      db.collection("posts")
-        .orderBy("timestamp", "desc")
-        .get()
-        .then(snapshot => {
-          postsContainer.innerHTML = "";
-
-          if (snapshot.empty) {
-            postsContainer.innerHTML = "<p class='col-span-full text-center text-gray-500'>No posts yet.</p>";
-            return;
-          }
-
-          snapshot.forEach(doc => {
-            const postData = doc.data();
-            const postId = doc.id;
-            const postElement = createPostElement(postData, postId);
-            postsContainer.appendChild(postElement);
+        const likeBtn = document.createElement("button");
+        likeBtn.className = "flex items-center gap-1 text-gray-500 hover:text-blue-600 transition";
+        likeBtn.innerHTML = `❤️ ${postData.likes?.length || 0}`;
+        likeBtn.onclick = async () => {
+          const userId = prompt("Enter your name to like:");
+          if (!userId) return;
+          const postRef = doc(db, "posts", postId);
+          await updateDoc(postRef, {
+            likes: arrayUnion(userId),
           });
-        })
-        .catch(err => {
-          postsContainer.innerHTML = `<p class='col-span-full text-center text-red-500'>Error loading posts: ${err.message}</p>`;
-        });
-    }
+        };
 
-    function createPostElement(post, postId) {
-      const container = document.createElement("div");
-      container.className = "bg-white rounded shadow p-4 flex flex-col";
+        const likedMsg = document.createElement("p");
+        likedMsg.className = "text-sm text-blue-600 font-medium";
+        likedMsg.textContent = postData.likes?.length ? `Liked by: ${postData.likes.join(", ")}` : "";
 
-      // Image
-      if (post.imageURL) {
-        const img = document.createElement("img");
-        img.src = post.imageURL;
-        img.alt = "Post image";
-        img.className = "w-full h-64 object-cover rounded mb-3";
-        container.appendChild(img);
-      }
+        const commentsList = document.createElement("div");
+        commentsList.className = "max-h-48 overflow-y-auto space-y-2 border-t pt-2 border-gray-100";
+        if (postData.comments) {
+          postData.comments.forEach((comment) => {
+            const commentEl = document.createElement("div");
+            commentEl.className = "bg-gray-50 px-3 py-2 rounded-md text-sm text-gray-700";
+            commentEl.textContent = `${comment.name}: ${comment.text}`;
+            commentsList.appendChild(commentEl);
+          });
+        }
 
-      // Caption
-      const caption = document.createElement("p");
-      caption.textContent = post.caption || "";
-      caption.className = "text-gray-800 mb-2";
-      container.appendChild(caption);
+        const commentInput = document.createElement("input");
+        commentInput.placeholder = "Write a comment...";
+        commentInput.className = "flex-grow border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-400 outline-none";
 
-      // Likes and Comments container
-      const actionsDiv = document.createElement("div");
-      actionsDiv.className = "flex items-center space-x-4";
+        const commentBtn = document.createElement("button");
+        commentBtn.className = "bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm font-medium";
+        commentBtn.textContent = "Send";
+        commentBtn.onclick = async () => {
+          const name = prompt("Enter your name:");
+          const text = commentInput.value.trim();
+          if (!name || !text) return;
+          const postRef = doc(db, "posts", postId);
+          await updateDoc(postRef, {
+            comments: arrayUnion({ name, text }),
+          });
+          commentInput.value = "";
+        };
 
-      // Likes count
-      const likesCount = document.createElement("span");
-      likesCount.textContent = `Likes: ${post.likes || 0}`;
-      likesCount.className = "text-gray-600";
-      actionsDiv.appendChild(likesCount);
+        const commentRow = document.createElement("div");
+        commentRow.className = "flex items-center gap-2 mt-2";
+        commentRow.appendChild(commentInput);
+        commentRow.appendChild(commentBtn);
 
-      // Comments count
-      const commentsCount = document.createElement("span");
-      commentsCount.textContent = `Comments: ${post.comments ? Object.keys(post.comments).length : 0}`;
-      commentsCount.className = "text-gray-600";
-      actionsDiv.appendChild(commentsCount);
+        container.appendChild(captionEl);
+        container.appendChild(imgEl);
+        container.appendChild(likeBtn);
+        container.appendChild(likedMsg);
+        container.appendChild(commentsList);
+        container.appendChild(commentRow);
 
-      container.appendChild(actionsDiv);
-
-      // Delete button (only for admin)
-      if (isAdmin) {
-        const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "Delete";
-        deleteBtn.className = "mt-3 bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 self-start";
-        deleteBtn.addEventListener("click", () => {
-          if (confirm("Are you sure you want to delete this post?")) {
-            db.collection("posts").doc(postId).delete()
-              .then(() => {
-                // Remove from UI immediately
-                container.remove();
-              })
-              .catch(err => alert("Failed to delete: " + err.message));
-          }
-        });
-        container.appendChild(deleteBtn);
-      }
-
-      return container;
-    }
+        postContainer.appendChild(container);
+      });
+    });
   </script>
+</head>
+<body class="bg-gray-100 min-h-screen p-4">
+    <div class="flex items-center space-x-4 text-lg font-medium">
+      <a href="https://beastcut.github.io/Rohit-Unfiltered/" class="text-black dark:text-white hover:text-blue-400 transition-colors duration-300 border rounded-lg p-2 shadow hover:shadow-lg transition text-black-800" style="cursor: pointer;" >← BACK</a>
+    </div>
+
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-4xl font-bold text-center text-gray-800 mb-8">Community Feed</h1>
+    <div id="post-container" class="space-y-8"></div>
+  </div>
 </body>
 </html>
