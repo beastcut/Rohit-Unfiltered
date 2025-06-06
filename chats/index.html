@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Community Post Website</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  <nav class="bg-white shadow p-4 flex justify-between items-center">
+      
+    <div class="flex items-center space-x-4 text-lg font-medium">
+      <a href="https://beastcut.github.io/Rohit-Unfiltered/" class="text-black dark:text-black hover:text-blue-400 transition-colors duration-300 border rounded-lg p-2 shadow hover:shadow-lg transition text-black-800" style="cursor: pointer;" >← BACK</a>
+    </div>
+
+    <h1 class="text-xl font-semibold">Community Posts</h1>
+    <div>
+      <button id="logoutBtn" class="bg-red-500 text-white px-4 py-2 rounded hidden hover:bg-red-600">Logout</button>
+      <a href="login.html" id="loginLink" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Login</a>
+      <a href="upload.html" id="uploadLink" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 ml-2 hidden">Post</a>
+    </div>
+  </nav>
+
+  <main class="flex-grow container mx-auto p-4">
+    <div id="postsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </main>
+
+  <script>
+    // Your Firebase config here
+     const firebaseConfig = {
+  apiKey: "AIzaSyAPhlmCS7t_NV7VqhRtOiFGp1QFhLzqMh4",
+  authDomain: "chat-7b8fc.firebaseapp.com",
+  projectId: "chat-7b8fc",
+  storageBucket: "chat-7b8fc.firebasestorage.app",
+  messagingSenderId: "604456029175",
+  appId: "1:604456029175:web:f61e014fe2113671a7bcf2"
+};
+    firebase.initializeApp(firebaseConfig);
+
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const logoutBtn = document.getElementById("logoutBtn");
+    const loginLink = document.getElementById("loginLink");
+    const uploadLink = document.getElementById("uploadLink");
+    const postsContainer = document.getElementById("postsContainer");
+
+    let currentUser = null;
+
+    // Set your admin emails here:
+    const adminEmails = ["satyampatel.net@gmail.com", "workwithrohitunfiltered@gmail.com"]; // Replace with actual admin emails
+    let isAdmin = false;
+
+    // Handle auth state changes
+    auth.onAuthStateChanged(user => {
+      currentUser = user;
+      if (user) {
+        logoutBtn.style.display = "inline-block";
+        loginLink.style.display = "none";
+        uploadLink.style.display = "inline-block";
+
+        // Check admin status
+        isAdmin = adminEmails.includes(user.email);
+      } else {
+        logoutBtn.style.display = "none";
+        loginLink.style.display = "inline-block";
+        uploadLink.style.display = "none";
+        isAdmin = false;
+      }
+
+      loadPosts();
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      auth.signOut();
+    });
+
+    function loadPosts() {
+      postsContainer.innerHTML = "<p class='col-span-full text-center text-gray-500'>Loading posts...</p>";
+
+      db.collection("posts")
+        .orderBy("timestamp", "desc")
+        .get()
+        .then(snapshot => {
+          postsContainer.innerHTML = "";
+
+          if (snapshot.empty) {
+            postsContainer.innerHTML = "<p class='col-span-full text-center text-gray-500'>No posts yet.</p>";
+            return;
+          }
+
+          snapshot.forEach(doc => {
+            const postData = doc.data();
+            const postId = doc.id;
+            const postElement = createPostElement(postData, postId);
+            postsContainer.appendChild(postElement);
+          });
+        })
+        .catch(err => {
+          postsContainer.innerHTML = `<p class='col-span-full text-center text-red-500'>Error loading posts: ${err.message}</p>`;
+        });
+    }
+
+    function createPostElement(post, postId) {
+      const container = document.createElement("div");
+      container.className = "bg-white rounded shadow p-4 flex flex-col";
+
+      // Image
+      if (post.imageURL) {
+        const img = document.createElement("img");
+        img.src = post.imageURL;
+        img.alt = "Post image";
+        img.className = "w-full h-64 object-cover rounded mb-3";
+        container.appendChild(img);
+      }
+
+      // Caption
+      const caption = document.createElement("p");
+      caption.textContent = post.caption || "";
+      caption.className = "text-gray-800 mb-2";
+      container.appendChild(caption);
+
+      // Likes and Comments container
+      const actionsDiv = document.createElement("div");
+      actionsDiv.className = "flex items-center space-x-4";
+
+      // Likes count
+      const likesCount = document.createElement("span");
+      likesCount.textContent = `Likes: ${post.likes || 0}`;
+      likesCount.className = "text-gray-600";
+      actionsDiv.appendChild(likesCount);
+
+      // Comments count
+      const commentsCount = document.createElement("span");
+      commentsCount.textContent = `Comments: ${post.comments ? Object.keys(post.comments).length : 0}`;
+      commentsCount.className = "text-gray-600";
+      actionsDiv.appendChild(commentsCount);
+
+      container.appendChild(actionsDiv);
+
+      // Delete button (only for admin)
+      if (isAdmin) {
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.className = "mt-3 bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 self-start";
+        deleteBtn.addEventListener("click", () => {
+          if (confirm("Are you sure you want to delete this post?")) {
+            db.collection("posts").doc(postId).delete()
+              .then(() => {
+                // Remove from UI immediately
+                container.remove();
+              })
+              .catch(err => alert("Failed to delete: " + err.message));
+          }
+        });
+        container.appendChild(deleteBtn);
+      }
+
+      return container;
+    }
+  </script>
+</body>
+</html>
