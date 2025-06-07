@@ -3,31 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login - Community Hub</title>
+  <title>Signup - Community Hub</title>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="login.js"></script>
+  <script src="signup.js"></script>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex items-center justify-center font-sans">
-  
 
   <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
-    <h1 class="text-3xl font-bold text-indigo-600 mb-6 text-center">Login</h1>
+    <h1 class="text-3xl font-bold text-indigo-600 mb-6 text-center">Create Account</h1>
 
-    <form id="loginForm" class="flex flex-col gap-4">
+    <form id="signupForm" class="flex flex-col gap-4">
+      <input type="text" id="displayName" placeholder="Full Name" required class="border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" />
       <input type="email" id="email" placeholder="Email" required class="border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" />
       <input type="password" id="password" placeholder="Password" required class="border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-      <button type="submit" class="bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition">Log In</button>
+      <button type="submit" class="bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition">Sign Up</button>
     </form>
 
     <p class="mt-4 text-center text-sm text-gray-600">
-      Don't have an account? <a href="signup.html" class="text-indigo-600 hover:underline">Sign up</a>
+      Already have an account? <a href="login.html" class="text-indigo-600 hover:underline">Log in</a>
     </p>
 
     <p id="errorMsg" class="text-red-600 mt-3 text-center"></p>
   </div>
 
- 
+  
+
 </body>
 </html>
