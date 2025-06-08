@@ -24,6 +24,9 @@ const firebaseConfig = {
   const chatMessages = document.getElementById('chatMessages');
   const chatForm = document.getElementById('chatForm');
   const chatInput = document.getElementById('chatInput');
+  const joinSound = document.getElementById('joinSound');
+const leaveSound = document.getElementById('leaveSound');
+
 
   const ROOM_ID = "default_room";
 
@@ -79,18 +82,19 @@ const firebaseConfig = {
         const id = doc.id;
         if (id === userId) return; // Skip self
 
-        if (change.type === 'added') {
-          // Start WebRTC connection with this user
-          createPeerConnection(id, doc.data().name, true);
-        }
-        else if (change.type === 'removed') {
-          // Remove their video
-          removeVideoElement(id);
-          if (peers[id]) {
-            peers[id].close();
-            delete peers[id];
-          }
-        }
+if (change.type === 'added') {
+  createPeerConnection(id, doc.data().name, true);
+  if (joinSound) joinSound.play().catch(() => {}); // Play join sound
+}
+else if (change.type === 'removed') {
+  removeVideoElement(id);
+  if (peers[id]) {
+    peers[id].close();
+    delete peers[id];
+  }
+  if (leaveSound) leaveSound.play().catch(() => {}); // Play leave sound
+}
+
       });
     });
 
@@ -135,8 +139,12 @@ const firebaseConfig = {
         chatMessages.scrollTop = chatMessages.scrollHeight;
       });
 
-    // Send presence removal on disconnect
-    window.addEventListener('beforeunload', cleanup);
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden") {
+    cleanup();
+  }
+});
+
 
     // Buttons
     toggleVideoBtn.onclick = toggleVideo;
@@ -173,6 +181,7 @@ function addVideoElement(id, stream, label) {
   container.appendChild(nameLabel);
   videos.appendChild(container);
 }
+
 
 
   // Remove video element by id
