@@ -140,7 +140,6 @@ const firebaseConfig = {
 
     // Buttons
     toggleVideoBtn.onclick = toggleVideo;
-    disconnectBtn.onclick = cleanup;
     toggleChatBtn.onclick = () => {
       chatBox.classList.toggle('hidden');
     };
@@ -295,7 +294,7 @@ function removeVideoElement(id) {
     if (!videoTrack) return;
 
     videoTrack.enabled = !videoTrack.enabled;
-    toggleVideoBtn.textContent = videoTrack.enabled ? "Turn Video Off" : "Turn Video On";
+    toggleVideoBtn.textContent = videoTrack.enabled ? "Video Off" : "Video On";
   }
 
   // Send chat message
