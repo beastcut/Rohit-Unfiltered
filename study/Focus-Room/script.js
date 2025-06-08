@@ -34,7 +34,7 @@ db.collection('chats')
       const d = doc.data();
       const div = document.createElement('div');
       div.className = 'p-2 bg-gray-700 rounded';
-      const t = new Date(d.timestamp.toDate()).toLocaleTimeString();
+      const t = new Date(d.timestamp?.toDate() || Date.now()).toLocaleTimeString();
       div.innerHTML = `<strong>${d.name}</strong>: ${filter(d.text)}<br><small>${t}</small>`;
       msgs.appendChild(div);
     });
@@ -72,21 +72,55 @@ function filter(s) {
   colUsers.onSnapshot(snap => {
     snap.docChanges().forEach(c => {
       const id = c.doc.id;
-      const name = c.doc.data().name;
+      const data = c.doc.data();
       if (id === uid) return;
 
       if (c.type === 'added') {
-        createPeer(id, name, true);
-        document.getElementById('joinSound').play();
+        if (!peers[id]) {
+          createPeer(id, data.name, true);
+          document.getElementById('joinSound').play();
+        }
       }
-      if (c.type == 'removed' && peers[id]) {
-        peers[id].video.remove();
-        peers[id].div.remove();
+      if (c.type === 'removed' && peers[id]) {
+        if (peers[id].video) peers[id].video.remove();
+        if (peers[id].div) peers[id].div.remove();
+        if (peers[id].peer) peers[id].peer.destroy();
         delete peers[id];
         document.getElementById('leaveSound').play();
       }
     });
   });
+
+  // Listen for signals
+  db.collection('rooms').doc(ROOM).collection('signals')
+    .onSnapshot(snapshot => {
+      snapshot.docChanges().forEach(change => {
+        if (change.type === 'added') {
+          const data = change.doc.data();
+
+          // Ignore signals sent by self
+          if (data.from === uid) return;
+
+          // Signal is either for us or a broadcast (toId=null)
+          if (data.toId === uid || data.toId === null) {
+            let peerObj = peers[data.from];
+            if (peerObj) {
+              peerObj.peer.signal(data.signal);
+            } else {
+              // If no peer, create one as non-initiator
+              createPeer(data.from, data.name, false).then(() => {
+                if (peers[data.from]) {
+                  peers[data.from].peer.signal(data.signal);
+                }
+              });
+            }
+          }
+
+          // Clean up processed signal
+          change.doc.ref.delete();
+        }
+      });
+    });
 })();
 
 async function createPeer(id, name, initiator) {
@@ -94,25 +128,35 @@ async function createPeer(id, name, initiator) {
 
   peer.on('signal', data => {
     db.collection('rooms').doc(ROOM).collection('signals').add({
-      from:id, toId:initiator?null:id, name:userName, signal:data
+      from: id === userName ? id : id, // id is peer id string
+      toId: initiator ? null : id,
+      name: userName,
+      signal: data
     });
   });
 
   peer.on('stream', stream => addVideo(name, stream, false));
 
-  db.collection('rooms').doc(ROOM).collection('signals')
-    .onSnapshot(snapshot => {
-      snapshot.forEach(doc => {
-        const s = doc.data();
-        if (s.to == userName && !peer.destroyed) peer.signal(s.signal);
-      });
-    });
+  peer.on('close', () => {
+    if (peers[id]) {
+      if (peers[id].video) peers[id].video.remove();
+      if (peers[id].div) peers[id].div.remove();
+      delete peers[id];
+    }
+  });
 
-  peers[id] = peer;
+  peers[id] = {peer};
+  return peers[id];
 }
 
 // 🖼 Video render
 function addVideo(name, stream, isLocal) {
+  // Check if video already exists for this user and remove
+  if (peers[name]?.video) {
+    peers[name].video.srcObject = stream;
+    return;
+  }
+
   const dv = document.createElement('div');
   const vid = document.createElement('video');
   vid.autoplay = true;
@@ -128,7 +172,10 @@ function addVideo(name, stream, isLocal) {
   dv.append(vid, lbl);
   videoContainer.appendChild(dv);
 
-  if (!isLocal) peers[name] = {video: vid, div: dv};
+  if (!isLocal) {
+    peers[name].video = vid;
+    peers[name].div = dv;
+  }
 }
 
 // 🎬 Toggle video

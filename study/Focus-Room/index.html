@@ -25,10 +25,6 @@
 
   <div id="videoContainer" class="flex flex-wrap justify-center items-center gap-4 p-4 overflow-y-auto flex-1"></div>
 
-  <button onclick="toggleChat()"
-          class="fixed bottom-4 left-4 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg z-50">
-    💬
-  </button>
 
   <div id="chatBox" class="fixed top-0 right-0 w-80 h-full bg-gray-800 shadow-lg p-4 hidden z-40 flex flex-col">
     <div class="flex justify-between items-center mb-2">
@@ -42,10 +38,24 @@
     </div>
   </div>
 
-  <div class="flex justify-center gap-4 p-4 bg-gray-900">
-    <button onclick="toggleVideo()" class="bg-yellow-500 px-4 py-2 rounded">Video On/Off</button>
-    <button onclick="disconnect()" class="bg-red-600 px-4 py-2 rounded">Disconnect</button>
-  </div>
+<!-- Chat button fixed bottom-left -->
+<button onclick="toggleChat()" 
+        class="fixed bottom-4 left-4 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg z-50">
+  💬
+</button>
+
+<!-- Video and Disconnect buttons fixed bottom-center -->
+<div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4 z-50">
+  <button onclick="toggleVideo()" 
+          class="bg-yellow-500 hover:bg-yellow-600 text-white p-3 rounded-full shadow-lg">
+    video
+  </button>
+  <button onclick="disconnect()" 
+          class="bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-lg">
+    disconnect
+  </button>
+</div>
+
 
   <audio id="joinSound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
   <audio id="leaveSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
