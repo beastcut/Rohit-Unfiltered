@@ -1,3 +1,4 @@
+  // Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAhIYskdZDrW2lfjGKnflGIbHNlTojoXho",
   authDomain: "videochat-1f348.firebaseapp.com",
@@ -7,188 +8,334 @@ const firebaseConfig = {
   appId: "1:1054111027678:web:99f547f3fda3bc8d7c4d4f"
 };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
 
-const ROOM = 'main-room';
-const peers = {};
-let localStream, userName;
-const videoContainer = document.getElementById('videoContainer');
+  // Elements
+  const nameModal = document.getElementById('nameModal');
+  const nameInput = document.getElementById('nameInput');
+  const joinBtn = document.getElementById('joinBtn');
+  const videos = document.getElementById('videos');
+  const toggleVideoBtn = document.getElementById('toggleVideoBtn');
+  const disconnectBtn = document.getElementById('disconnectBtn');
+  const toggleChatBtn = document.getElementById('toggleChatBtn');
+  const chatBox = document.getElementById('chatBox');
+  const chatMessages = document.getElementById('chatMessages');
+  const chatForm = document.getElementById('chatForm');
+  const chatInput = document.getElementById('chatInput');
 
-// 🔐 Prompt for name
-userName = localStorage.getItem('name') || prompt('Enter your name:');
-localStorage.setItem('name', userName);
+  const ROOM_ID = "default_room";
 
-// ✅ UI setup
-document.querySelector('emoji-picker').addEventListener('emoji-click', e => {
-  document.getElementById('messageInput').value += e.detail.unicode;
-});
+  let localStream = null;
+  let peers = {};  // peerId => RTCPeerConnection
+  let userId = null;
+  let userName = null;
 
-// 🔄 Listen chat
-db.collection('chats')
-  .orderBy('timestamp')
-  .onSnapshot(snapshot => {
-    const msgs = document.getElementById('messages');
-    msgs.innerHTML = '';
-    snapshot.forEach(doc => {
-      const d = doc.data();
-      const div = document.createElement('div');
-      div.className = 'p-2 bg-gray-700 rounded';
-      const t = new Date(d.timestamp?.toDate() || Date.now()).toLocaleTimeString();
-      div.innerHTML = `<strong>${d.name}</strong>: ${filter(d.text)}<br><small>${t}</small>`;
-      msgs.appendChild(div);
+  // Store chat unsubscribe function
+  let chatUnsubscribe = null;
+  // Store user docs unsubscribe
+  let usersUnsubscribe = null;
+  // Store signals unsubscribe
+  let signalsUnsubscribe = null;
+
+  // Signaling collections
+  const roomRef = db.collection('rooms').doc(ROOM_ID);
+  const usersRef = roomRef.collection('users');
+  const signalsRef = roomRef.collection('signals');
+  
+  // Ask user name and join
+  joinBtn.onclick = async () => {
+    const val = nameInput.value.trim();
+    if (!val) return alert("Please enter your name");
+    userName = val;
+    nameModal.style.display = 'none';
+    await start();
+  };
+
+  async function start() {
+    // Get local video stream (video only)
+    try {
+      localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+    } catch (e) {
+      alert("Cannot get camera: " + e.message);
+      return;
+    }
+
+    // Create own video element
+    addVideoElement('local', localStream, userName + " (You)");
+
+    // Add self to Firestore users collection
+    userId = usersRef.doc().id;
+    await usersRef.doc(userId).set({
+      name: userName,
+      joinedAt: Date.now(),
     });
-    msgs.scrollTop = msgs.scrollHeight;
-  });
 
-function sendMessage() {
-  const txt = document.getElementById('messageInput').value.trim();
-  if (!txt) return;
-  db.collection('chats').add({
-    name: userName, text: txt, timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  });
-  document.getElementById('messageInput').value = '';
-}
-
-function toggleChat() {
-  document.getElementById('chatBox').classList.toggle('hidden');
-}
-
-function filter(s) {
-  return s.replace(/\b(badword1|badword2|idiot)\b/gi, '****');
-}
-
-// 🎥 WebRTC
-(async function() {
-  localStream = await navigator.mediaDevices.getUserMedia({video:true,audio:false});
-  addVideo(userName, localStream, true);
-
-  const uid = userName + '_' + Date.now();
-  const colUsers = db.collection('rooms').doc(ROOM).collection('users');
-  const udoc = colUsers.doc(uid);
-  await udoc.set({name:userName, ts:firebase.firestore.FieldValue.serverTimestamp()});
-  window.addEventListener('beforeunload', () => udoc.delete());
-
-  colUsers.onSnapshot(snap => {
-    snap.docChanges().forEach(c => {
-      const id = c.doc.id;
-      const data = c.doc.data();
-      if (id === uid) return;
-
-      if (c.type === 'added') {
-        if (!peers[id]) {
-          createPeer(id, data.name, true);
-          document.getElementById('joinSound').play();
-        }
-      }
-      if (c.type === 'removed' && peers[id]) {
-        if (peers[id].video) peers[id].video.remove();
-        if (peers[id].div) peers[id].div.remove();
-        if (peers[id].peer) peers[id].peer.destroy();
-        delete peers[id];
-        document.getElementById('leaveSound').play();
-      }
-    });
-  });
-
-  // Listen for signals
-  db.collection('rooms').doc(ROOM).collection('signals')
-    .onSnapshot(snapshot => {
+    // Listen to users collection
+    usersUnsubscribe = usersRef.onSnapshot(snapshot => {
       snapshot.docChanges().forEach(change => {
+        const doc = change.doc;
+        const id = doc.id;
+        if (id === userId) return; // Skip self
+
         if (change.type === 'added') {
-          const data = change.doc.data();
-
-          // Ignore signals sent by self
-          if (data.from === uid) return;
-
-          // Signal is either for us or a broadcast (toId=null)
-          if (data.toId === uid || data.toId === null) {
-            let peerObj = peers[data.from];
-            if (peerObj) {
-              peerObj.peer.signal(data.signal);
-            } else {
-              // If no peer, create one as non-initiator
-              createPeer(data.from, data.name, false).then(() => {
-                if (peers[data.from]) {
-                  peers[data.from].peer.signal(data.signal);
-                }
-              });
-            }
+          // Start WebRTC connection with this user
+          createPeerConnection(id, doc.data().name, true);
+        }
+        else if (change.type === 'removed') {
+          // Remove their video
+          removeVideoElement(id);
+          if (peers[id]) {
+            peers[id].close();
+            delete peers[id];
           }
-
-          // Clean up processed signal
-          change.doc.ref.delete();
         }
       });
     });
-})();
 
-async function createPeer(id, name, initiator) {
-  const peer = new SimplePeer({initiator, trickle:false, stream:localStream});
+    // Listen to signals collection
+    signalsUnsubscribe = signalsRef.onSnapshot(snapshot => {
+      snapshot.docChanges().forEach(async change => {
+        const data = change.doc.data();
+        if (!data) return;
+        if (data.to !== userId) return; // Signal not for me
+        const fromId = data.from;
+        const type = data.type;
+        const sdp = data.sdp;
+        const candidate = data.candidate;
 
-  peer.on('signal', data => {
-    db.collection('rooms').doc(ROOM).collection('signals').add({
-      from: id === userName ? id : id, // id is peer id string
-      toId: initiator ? null : id,
-      name: userName,
-      signal: data
+        if (type === 'offer') {
+          // Incoming offer
+          await handleOffer(fromId, sdp);
+        } else if (type === 'answer') {
+          // Incoming answer
+          await handleAnswer(fromId, sdp);
+        } else if (type === 'candidate') {
+          // Incoming ICE candidate
+          await handleCandidate(fromId, candidate);
+        }
+
+        // Delete signal doc after handling to keep db clean
+        signalsRef.doc(change.doc.id).delete();
+      });
     });
-  });
 
-  peer.on('stream', stream => addVideo(name, stream, false));
+    // Listen for chat messages
+    chatUnsubscribe = roomRef.collection('chat').orderBy('timestamp')
+      .onSnapshot(snapshot => {
+        chatMessages.innerHTML = "";
+        snapshot.docs.forEach(doc => {
+          const msg = doc.data();
+          const el = document.createElement('div');
+          el.className = 'p-1 rounded ' + (msg.senderId === userId ? 'bg-blue-600 self-end' : 'bg-gray-700 self-start');
+          el.textContent = `${msg.senderName}: ${msg.text}`;
+          chatMessages.appendChild(el);
+        });
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      });
 
-  peer.on('close', () => {
-    if (peers[id]) {
-      if (peers[id].video) peers[id].video.remove();
-      if (peers[id].div) peers[id].div.remove();
-      delete peers[id];
+    // Send presence removal on disconnect
+    window.addEventListener('beforeunload', cleanup);
+
+    // Buttons
+    toggleVideoBtn.onclick = toggleVideo;
+    disconnectBtn.onclick = cleanup;
+    toggleChatBtn.onclick = () => {
+      chatBox.classList.toggle('hidden');
+    };
+    chatForm.onsubmit = sendMessage;
+  }
+
+  // Add video element for user
+function addVideoElement(id, stream, label) {
+  if (document.getElementById('container-' + id)) return;
+
+  // Create container div
+  const container = document.createElement('div');
+  container.id = 'container-' + id;
+  container.className = 'flex flex-col items-center';
+
+  // Create video element
+  const video = document.createElement('video');
+  video.id = 'video-' + id;
+  video.srcObject = stream;
+  video.autoplay = true;
+  video.playsInline = true;
+  video.muted = (id === 'local'); // mute self
+  video.className = 'rounded-md object-cover w-60 h-44 bg-black'; // 240x180 approx
+
+  // Create label element
+  const nameLabel = document.createElement('div');
+  nameLabel.textContent = label || '';
+  nameLabel.className = 'mt-1 text-center text-sm text-gray-300 select-none';
+
+  container.appendChild(video);
+  container.appendChild(nameLabel);
+  videos.appendChild(container);
+}
+
+
+  // Remove video element by id
+function removeVideoElement(id) {
+  const container = document.getElementById('container-' + id);
+  if (container) {
+    const video = container.querySelector('video');
+    if (video) video.srcObject = null;
+    container.remove();
+  }
+}
+
+
+  // Create new RTCPeerConnection and handle signaling
+  async function createPeerConnection(peerId, peerName, isOfferer) {
+    if (peers[peerId]) return;
+    const pc = new RTCPeerConnection({
+      iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+    });
+
+    // Add local tracks
+    localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+
+    pc.onicecandidate = event => {
+      if (event.candidate) {
+        sendSignal({
+          type: 'candidate',
+          candidate: event.candidate,
+          from: userId,
+          to: peerId
+        });
+      }
+    };
+
+    pc.ontrack = event => {
+      const [stream] = event.streams;
+      addVideoElement(peerId, stream, peerName);
+    };
+
+    peers[peerId] = pc;
+
+    if (isOfferer) {
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+      sendSignal({
+        type: 'offer',
+        sdp: offer,
+        from: userId,
+        to: peerId
+      });
     }
-  });
-
-  peers[id] = {peer};
-  return peers[id];
-}
-
-// 🖼 Video render
-function addVideo(name, stream, isLocal) {
-  // Check if video already exists for this user and remove
-  if (peers[name]?.video) {
-    peers[name].video.srcObject = stream;
-    return;
   }
 
-  const dv = document.createElement('div');
-  const vid = document.createElement('video');
-  vid.autoplay = true;
-  vid.playsInline = true;
-  vid.className = 'rounded-xl w-60 h-40 object-cover';
-  if (isLocal) vid.muted = true;
-  vid.srcObject = stream;
+  // Handle incoming offer
+  async function handleOffer(fromId, sdp) {
+    if (!peers[fromId]) {
+      // Create peer connection as answerer
+      const pc = new RTCPeerConnection({
+        iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+      });
 
-  const lbl = document.createElement('div');
-  lbl.className = 'text-center text-sm mt-1';
-  lbl.innerText = name;
+      localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
 
-  dv.append(vid, lbl);
-  videoContainer.appendChild(dv);
+      pc.onicecandidate = event => {
+        if (event.candidate) {
+          sendSignal({
+            type: 'candidate',
+            candidate: event.candidate,
+            from: userId,
+            to: fromId
+          });
+        }
+      };
 
-  if (!isLocal) {
-    peers[name].video = vid;
-    peers[name].div = dv;
+      pc.ontrack = event => {
+        const [stream] = event.streams;
+        addVideoElement(fromId, stream);
+      };
+
+      peers[fromId] = pc;
+    }
+
+    await peers[fromId].setRemoteDescription(new RTCSessionDescription(sdp));
+    const answer = await peers[fromId].createAnswer();
+    await peers[fromId].setLocalDescription(answer);
+    sendSignal({
+      type: 'answer',
+      sdp: answer,
+      from: userId,
+      to: fromId
+    });
   }
-}
 
-// 🎬 Toggle video
-function toggleVideo() {
-  const t = localStream.getVideoTracks()[0];
-  t.enabled = !t.enabled;
-}
+  // Handle incoming answer
+  async function handleAnswer(fromId, sdp) {
+    if (!peers[fromId]) return;
+    await peers[fromId].setRemoteDescription(new RTCSessionDescription(sdp));
+  }
 
-// ❌ Disconnect
-function disconnect() {
-  localStream.getTracks().forEach(t => t.stop());
-  db.collection('rooms').doc(ROOM).collection('users')
-    .where('name','==',userName).get()
-    .then(q => q.forEach(d => d.ref.delete()))
-    .finally(() => window.location.reload());
-}
+  // Handle incoming ICE candidate
+  async function handleCandidate(fromId, candidate) {
+    if (!peers[fromId]) return;
+    try {
+      await peers[fromId].addIceCandidate(new RTCIceCandidate(candidate));
+    } catch (e) {
+      console.error("Error adding received ICE candidate", e);
+    }
+  }
+
+  // Send signaling message to Firestore
+  async function sendSignal(data) {
+    await signalsRef.add(data);
+  }
+
+  // Toggle local video on/off
+  function toggleVideo() {
+    if (!localStream) return;
+    const videoTrack = localStream.getVideoTracks()[0];
+    if (!videoTrack) return;
+
+    videoTrack.enabled = !videoTrack.enabled;
+    toggleVideoBtn.textContent = videoTrack.enabled ? "Turn Video Off" : "Turn Video On";
+  }
+
+  // Send chat message
+  async function sendMessage(e) {
+    e.preventDefault();
+    const text = chatInput.value.trim();
+    if (!text) return;
+    await roomRef.collection('chat').add({
+      senderId: userId,
+      senderName: userName,
+      text,
+      timestamp: Date.now()
+    });
+    chatInput.value = '';
+  }
+
+  // Clean up on disconnect
+  async function cleanup() {
+    // Remove own user doc
+    if (userId) {
+      await usersRef.doc(userId).delete().catch(() => {});
+    }
+    // Close all peer connections
+    Object.values(peers).forEach(pc => pc.close());
+    peers = {};
+
+    // Stop local tracks
+    if (localStream) {
+      localStream.getTracks().forEach(track => track.stop());
+      localStream = null;
+    }
+
+    // Remove local video element
+    removeVideoElement('local');
+
+    // Unsubscribe from listeners
+    if (usersUnsubscribe) usersUnsubscribe();
+    if (signalsUnsubscribe) signalsUnsubscribe();
+    if (chatUnsubscribe) chatUnsubscribe();
+
+    // Show name modal again
+    nameModal.style.display = 'flex';
+  }

@@ -2,64 +2,60 @@
 <html lang="en" class="bg-gray-900 text-white">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Group Video Chat</title>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/simple-peer@9.11.1/simplepeer.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/emoji-picker-element@1"></script>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    #chatBox { transition: transform 0.3s; } 
-    #chatBox.hidden { transform: translateX(100%); }
+    #videos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    video {
+      width: 240px;
+      height: 180px;
+      background: black;
+      border-radius: 0.5rem;
+      object-fit: cover;
+    }
   </style>
 </head>
-<body class="flex flex-col h-screen">
-  <nav class="bg-gray-800 p-4">
-    <a href="https://beastcut.github.io/Rohit-Unfiltered/study/index.html"
-       class="text-white hover:text-blue-400 border rounded-lg p-2 shadow">
-      Return
-    </a>
-  </nav>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center p-4">
 
-  <div id="videoContainer" class="flex flex-wrap justify-center items-center gap-4 p-4 overflow-y-auto flex-1"></div>
-
-
-  <div id="chatBox" class="fixed top-0 right-0 w-80 h-full bg-gray-800 shadow-lg p-4 hidden z-40 flex flex-col">
-    <div class="flex justify-between items-center mb-2">
-      <h2 class="text-xl font-bold">Chat</h2><button onclick="toggleChat()">❌</button>
-    </div>
-    <div id="messages" class="flex-1 overflow-y-auto space-y-2 pr-1 mb-2"></div>
-    <div class="flex items-center space-x-2 mt-2">
-      <input id="messageInput" class="flex-1 p-2 rounded bg-gray-700 text-white" placeholder="Type message..." />
-      <emoji-picker class="emoji-picker"></emoji-picker>
-      <button onclick="sendMessage()" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded">Send</button>
+  <!-- Name input modal -->
+  <div id="nameModal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+    <div class="bg-gray-800 p-6 rounded-lg w-80 text-center">
+      <h2 class="text-xl mb-4">Enter your name</h2>
+      <input id="nameInput" type="text" placeholder="Your name" class="w-full p-2 rounded text-black" />
+      <button id="joinBtn" class="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white w-full">Join</button>
     </div>
   </div>
 
-<!-- Chat button fixed bottom-left -->
-<button onclick="toggleChat()" 
-        class="fixed bottom-4 left-4 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg z-50">
-  💬
-</button>
+  <!-- Videos container -->
+  <div id="videos" class="mb-4"></div>
 
-<!-- Video and Disconnect buttons fixed bottom-center -->
-<div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-4 z-50">
-  <button onclick="toggleVideo()" 
-          class="bg-yellow-500 hover:bg-yellow-600 text-white p-3 rounded-full shadow-lg">
-    video
-  </button>
-  <button onclick="disconnect()" 
-          class="bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-lg">
-    disconnect
-  </button>
-</div>
+  <!-- Controls -->
+  <div class="flex fixed bottom-4 gap-4 mb-4">
+    <button id="toggleVideoBtn" class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded">Turn Video Off</button>
+    <button id="disconnectBtn" class="bg-red-700 hover:bg-red-600 px-4 py-2 rounded">Disconnect</button>
+    <button id="toggleChatBtn" class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded">Chat</button>
+  </div>
 
+  <!-- Chat box -->
+  <div id="chatBox" class="fixed right-4 top-16 bottom-4 w-80 bg-gray-800 rounded p-4 flex flex-col hidden shadow-lg">
+    <div id="chatMessages" class="flex-grow overflow-y-auto mb-4 space-y-2"></div>
+    <form id="chatForm" class="flex gap-2">
+      <input id="chatInput" autocomplete="off" placeholder="Type a message..." class="flex-grow p-2 rounded text-black" />
+      <button type="submit" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-white">Send</button>
+    </form>
+  </div>
 
-  <audio id="joinSound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
-  <audio id="leaveSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+<script src="script.js">
 
-  <script src="script.js"></script>
+</script>
 </body>
 </html>
