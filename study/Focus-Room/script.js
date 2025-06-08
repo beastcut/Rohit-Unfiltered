@@ -1,10 +1,11 @@
 const firebaseConfig = {
-  apiKey: "AIzaSyAhIYskdZDrW2lfjGKnflGIbHNlTojoXho",
-  authDomain: "videochat-1f348.firebaseapp.com",
-  projectId: "videochat-1f348",
-  storageBucket: "videochat-1f348.appspot.com",
-  messagingSenderId: "1054111027678",
-  appId: "1:1054111027678:web:99f547f3fda3bc8d7c4d4f"
+  apiKey: "AIzaSyAPhlmCS7t_NV7VqhRtOiFGp1QFhLzqMh4",
+  authDomain: "chat-7b8fc.firebaseapp.com",
+  databaseURL: "https://chat-7b8fc-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "chat-7b8fc",
+  storageBucket: "chat-7b8fc.firebasestorage.app",
+  messagingSenderId: "604456029175",
+  appId: "1:604456029175:web:f61e014fe2113671a7bcf2"
 };
 
 
