@@ -27,19 +27,24 @@
   <!-- Chat button -->
   <button onclick="toggleChat()" class="fixed bottom-4 right-4 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg z-50">💬</button>
 
-  <!-- Chat box -->
-  <div id="chatBox" class="fixed top-0 right-0 w-80 max-w-full h-full bg-gray-800 shadow-lg p-4 hidden z-40 overflow-y-auto">
-    <div class="flex justify-between items-center mb-2">
-      <h2 class="text-xl font-bold">Chat</h2>
-      <button onclick="toggleChat()">❌</button>
-    </div>
-    <div id="messages" class="space-y-2 max-h-[80%] overflow-y-auto mb-2"></div>
-    <div class="flex items-center space-x-2">
-      <input id="messageInput" class="flex-1 p-2 rounded bg-gray-700 text-white" placeholder="Type message..." />
-      <emoji-picker class="emoji-picker"></emoji-picker>
-      <button onclick="sendMessage()" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded">Send</button>
-    </div>
+ <!-- Chat box -->
+<div id="chatBox" class="fixed top-0 right-0 w-80 max-w-full h-full bg-gray-800 shadow-lg p-4 hidden z-40 flex flex-col">
+  <div class="flex justify-between items-center mb-2">
+    <h2 class="text-xl font-bold">Chat</h2>
+    <button onclick="toggleChat()">❌</button>
   </div>
+  
+  <!-- Scrollable messages -->
+  <div id="messages" class="flex-1 overflow-y-auto space-y-2 mb-2 pr-1"></div>
+  
+  <!-- Input section stays fixed -->
+  <div class="flex items-center space-x-2 mt-2">
+    <input id="messageInput" class="flex-1 p-2 rounded bg-gray-700 text-white" placeholder="Type message..." />
+    <emoji-picker class="emoji-picker"></emoji-picker>
+    <button onclick="sendMessage()" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded">Send</button>
+  </div>
+</div>
+
 
   <!-- Control buttons -->
   <div class="flex justify-center gap-4 p-4 bg-gray-900">
