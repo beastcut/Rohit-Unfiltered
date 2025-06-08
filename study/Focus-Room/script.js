@@ -7,126 +7,142 @@ const firebaseConfig = {
   appId: "1:1054111027678:web:99f547f3fda3bc8d7c4d4f"
 };
 
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const ROOM_ID = "constantRoom";
-const localVideo = document.createElement("video");
-localVideo.autoplay = true;
-localVideo.muted = true;
-localVideo.className = "rounded-xl w-60 h-40 object-cover";
-let localStream, name;
-let peers = {};
-const abusiveWords = ["badword", "abuse"]; // Add more
+const ROOM_ID = "main-room";
+let userName = localStorage.getItem("name") || prompt("Enter your name:");
+localStorage.setItem("name", userName);
+let localStream, videoEnabled = true;
 
-// Get DOM elements
+// Join room
+const roomRef = db.collection("room").doc(ROOM_ID);
+const peers = {};
 const videoContainer = document.getElementById("videoContainer");
-const messageInput = document.getElementById("messageInput");
-const messages = document.getElementById("messages");
-const chatBox = document.getElementById("chatBox");
-const chatToggle = document.getElementById("chatToggle");
-const emojiPicker = document.getElementById("emojiPicker");
 
-chatToggle.onclick = () => chatBox.classList.toggle("hidden");
-function openEmojiPicker() {
-  emojiPicker.classList.toggle("hidden");
-}
-emojiPicker.addEventListener("emoji-click", e => {
-  messageInput.value += e.detail.unicode;
-  emojiPicker.classList.add("hidden");
-});
+async function init() {
+  localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
 
-// Clean message
-function filterMessage(msg) {
-  for (let word of abusiveWords) {
-    const regex = new RegExp(`\\b${word}\\b`, "gi");
-    msg = msg.replace(regex, "*".repeat(word.length));
-  }
-  return msg;
-}
+  const myVideo = document.createElement("video");
+  myVideo.autoplay = true;
+  myVideo.muted = true;
+  myVideo.className = "rounded-xl w-60 h-40 object-cover";
+  myVideo.srcObject = localStream;
 
-// Chat System
-function sendMessage() {
-  const text = filterMessage(messageInput.value.trim());
-  if (!text) return;
-  db.collection("rooms").doc(ROOM_ID).collection("messages").add({
-    name,
-    text,
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  const label = document.createElement("div");
+  label.innerText = userName;
+  label.className = "text-center text-sm mt-1";
+
+  const wrapper = document.createElement("div");
+  wrapper.appendChild(myVideo);
+  wrapper.appendChild(label);
+  wrapper.id = "myVideoWrapper";
+
+  videoContainer.appendChild(wrapper);
+
+  await roomRef.collection("peers").doc(userName).set({ name: userName, joined: Date.now() });
+
+  // Auto-cleanup when tab closed
+  window.addEventListener("beforeunload", () => {
+    roomRef.collection("peers").doc(userName).delete();
   });
-  messageInput.value = "";
-}
-db.collection("rooms").doc(ROOM_ID).collection("messages")
-  .orderBy("timestamp")
-  .onSnapshot(snapshot => {
+
+  // Listen for other peers
+  roomRef.collection("peers").onSnapshot(snapshot => {
+    snapshot.docChanges().forEach(change => {
+      const peerName = change.doc.id;
+      if (peerName === userName) return;
+
+      if (change.type === "added" && !peers[peerName]) {
+        const video = document.createElement("video");
+        video.autoplay = true;
+        video.className = "rounded-xl w-60 h-40 object-cover";
+        video.srcObject = new MediaStream(); // placeholder
+        video.poster = "https://via.placeholder.com/150?text=" + peerName;
+
+        const label = document.createElement("div");
+        label.innerText = peerName;
+        label.className = "text-center text-sm mt-1";
+
+        const wrapper = document.createElement("div");
+        wrapper.appendChild(video);
+        wrapper.appendChild(label);
+        wrapper.id = `peer-${peerName}`;
+
+        videoContainer.appendChild(wrapper);
+        peers[peerName] = wrapper;
+
+        document.getElementById("joinSound").play();
+      }
+
+      if (change.type === "removed" && peers[peerName]) {
+        document.getElementById(`peer-${peerName}`).remove();
+        delete peers[peerName];
+        document.getElementById("leaveSound").play();
+      }
+    });
+  });
+
+  // Chat listener
+  db.collection("chats").orderBy("timestamp").onSnapshot(snapshot => {
+    const messages = document.getElementById("messages");
     messages.innerHTML = "";
     snapshot.forEach(doc => {
-      const msg = doc.data();
-      const time = msg.timestamp?.toDate().toLocaleTimeString() || "Now";
+      const data = doc.data();
       const div = document.createElement("div");
-      div.innerHTML = `<strong>${msg.name}</strong> <span class="text-xs text-gray-400">[${time}]</span><br>${msg.text}`;
+      div.innerHTML = `<strong>${data.name}</strong>: ${filterBadWords(data.text)}<br/><small>${new Date(data.timestamp?.toDate()).toLocaleTimeString()}</small>`;
+      div.className = "p-2 bg-gray-700 rounded";
       messages.appendChild(div);
     });
     messages.scrollTop = messages.scrollHeight;
   });
 
-// Join Flow
-async function joinCall() {
-  name = document.getElementById("nameInput").value.trim();
-  if (!name) return;
-  document.getElementById("namePrompt").style.display = "none";
+  // Emoji picker
+  document.querySelector("emoji-picker").addEventListener("emoji-click", event => {
+    document.getElementById("messageInput").value += event.detail.unicode;
+  });
+}
 
-  localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-  localVideo.srcObject = localStream;
-  videoContainer.appendChild(localVideo);
+init();
 
-  const myDoc = db.collection("rooms").doc(ROOM_ID).collection("peers").doc(name);
-  await myDoc.set({ joined: Date.now() });
+// Chat Functions
+function sendMessage() {
+  const text = document.getElementById("messageInput").value.trim();
+  if (!text) return;
+  db.collection("chats").add({
+    name: userName,
+    text,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  });
+  document.getElementById("messageInput").value = "";
+}
 
-  window.addEventListener("beforeunload", () => myDoc.delete());
-
-  db.collection("rooms").doc(ROOM_ID).collection("peers")
-    .onSnapshot(snapshot => {
-      snapshot.docChanges().forEach(async change => {
-        const peerName = change.doc.id;
-        if (peerName === name) return;
-
-        if (change.type === "added" && !peers[peerName]) {
-          const video = document.createElement("video");
-          video.autoplay = true;
-          video.className = "rounded-xl w-60 h-40 object-cover";
-          video.dataset.name = peerName;
-          videoContainer.appendChild(video);
-
-          const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-          video.srcObject = stream;
-
-          document.getElementById("joinSound").play();
-          peers[peerName] = video;
-        }
-
-        if (change.type === "removed") {
-          const video = videoContainer.querySelector(`[data-name="${peerName}"]`);
-          if (video) video.remove();
-          delete peers[peerName];
-          document.getElementById("leaveSound").play();
-        }
-      });
-    });
+function toggleChat() {
+  const chat = document.getElementById("chatBox");
+  chat.classList.toggle("hidden");
 }
 
 // Video toggle
-let videoOn = true;
-document.getElementById("toggleVideo").onclick = () => {
-  videoOn = !videoOn;
-  localStream.getVideoTracks()[0].enabled = videoOn;
-  document.getElementById("toggleVideo").textContent = videoOn ? "Video Off" : "Video On";
-};
+function toggleVideo() {
+  videoEnabled = !videoEnabled;
+  localStream.getVideoTracks()[0].enabled = videoEnabled;
+}
 
 // Disconnect
-document.getElementById("disconnectBtn").onclick = () => {
-  db.collection("rooms").doc(ROOM_ID).collection("peers").doc(name).delete().then(() => {
-    window.location.reload();
+function disconnect() {
+  localStream.getTracks().forEach(track => track.stop());
+  roomRef.collection("peers").doc(userName).delete().then(() => {
+    location.reload();
   });
-};
+}
+
+// Abusive word filter
+function filterBadWords(text) {
+  const badWords = ["badword1", "badword2", "uglyword"]; // Add more
+  let clean = text;
+  badWords.forEach(word => {
+    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+    clean = clean.replace(regex, '****');
+  });
+  return clean;
+}
