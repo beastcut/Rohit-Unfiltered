@@ -145,7 +145,6 @@ async function start() {
   toggleVideoBtn.onclick = toggleVideo;
   toggleChatBtn.onclick = () => chatBox.classList.toggle('hidden');
   chatForm.onsubmit = sendMessage;
-
   window.onbeforeunload = cleanup;
 }
 
@@ -188,6 +187,7 @@ async function createPeerConnection(peerId, peerName, isOfferer) {
   };
 
   peers[peerId] = pc;
+
   if (isOfferer) {
     const offer = await pc.createOffer();
     await pc.setLocalDescription(offer);
@@ -196,7 +196,7 @@ async function createPeerConnection(peerId, peerName, isOfferer) {
 }
 
 async function handleOffer(fromId, sdp) {
-  if (!peers[fromId]) await createPeerConnection(fromId, peerNames[fromId] || "Peer", false);
+  await createPeerConnection(fromId, peerNames[fromId] || "Peer", false);
   await peers[fromId].setRemoteDescription(new RTCSessionDescription(sdp));
   const answer = await peers[fromId].createAnswer();
   await peers[fromId].setLocalDescription(answer);
@@ -235,6 +235,10 @@ async function cleanup() {
   if (localStream) localStream.getTracks().forEach(track => track.stop());
   removeVideoElement('local');
   nameModal.style.display = 'flex';
+}
+
+function sendSignal(data) {
+  signalsRef.add(data);
 }
 </script>
 </body>
